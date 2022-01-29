@@ -40,9 +40,8 @@ function titulo(props) {
 
 export default function PaginaInicial() {
    // const username = 'ViniciusFavorito';
-    const [username,setUsername] = React.useState('ViniciusFavorito');
+    const [username,setUsername] = React.useState('');
     const roteamento_chat = useRouter();
-    // const roteamento_gr8 = useRouter();
 
 
     return (
@@ -76,8 +75,11 @@ export default function PaginaInicial() {
                         as="form"
                         onSubmit={function (e){
                             e.preventDefault()
-                            // console.log("Alguem apertou o botao")
-                            roteamento_chat.push('/chat');
+                            roteamento_chat.push({
+                                pathname: '/chat',
+                                query: { name: username }
+                            });
+                           
                         }}
                         styleSheet={{
                             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -89,18 +91,7 @@ export default function PaginaInicial() {
                             {appConfig.name}
                         </Text>
 
-                        {/* <input 
-                            type="text"
-                            value={username}
-                            onChange={function (event){
-                                    console.log("O usuário digitou: ", event.target.value)
-                                    // onde está o valor?
-                                    const valor = event.target.value;
-                                    //trocar valor da variável
-                                    setUsername(valor)
-                                }
-                            }
-                            /> */}
+                      
                         <TextField
                             value={username}
                             onChange={function (event){

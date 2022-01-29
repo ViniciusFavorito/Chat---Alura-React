@@ -2,19 +2,20 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQwNzc5NywiZXhwIjoxOTU4OTgzNzk3fQ.rpPXjCoUVxPs6mLTtREmmewK_mCyheik46TexG4_DcI';
 const SUPA_URL = 'https://crfilockirgdsgqzgkpd.supabase.co'
 const supabaseClient = createClient(SUPA_URL,SUPABASE_ANON_KEY)
 
 
-
-
-
 export default function ChatPage() {
     // Sua l�gica vai aqui
     const [mensagem, setMesagem] = React.useState('');
     const [listaMensagem, setlistaMensagem] = React.useState([]);
+
+    const router = useRouter()
+    const {name} = router.query
 
     React.useEffect(()=>{
 
@@ -33,8 +34,7 @@ export default function ChatPage() {
     function handleNovaMensagem(novaMensagem) {
         const mensagem = {
             texto: novaMensagem,
-            de: 'Nelson',
-            //id: listaMensagem.length,
+            de: name,
         }
 
         supabaseClient
@@ -91,7 +91,6 @@ export default function ChatPage() {
                         padding: '16px',
                     }}
                 >
-                    {/* ta mudando o valor: {mensagem} */}
                     <MessageList mensagens={listaMensagem} />
 
                     <Box
