@@ -3,10 +3,21 @@ import React from 'react';
 import appConfig from '../config.json';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
+import {ButtonSendSticker } from '../src/components/ButtonSendSticker'
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQwNzc5NywiZXhwIjoxOTU4OTgzNzk3fQ.rpPXjCoUVxPs6mLTtREmmewK_mCyheik46TexG4_DcI';
 const SUPA_URL = 'https://crfilockirgdsgqzgkpd.supabase.co'
 const supabaseClient = createClient(SUPA_URL,SUPABASE_ANON_KEY)
+
+
+function att_msg(adicionaMensagem){
+    return supabaseClient
+        .from('mensagen') // Escrevi errado sem querer
+        .on('INSERT',(e) => { //Case sensitive
+            adicionaMensagem(e.new)
+        })
+        .subscribe();
+}
 
 
 export default function ChatPage() {
@@ -24,11 +35,24 @@ export default function ChatPage() {
             .select('*')
             .order('id',{ascending:false})
             .then(({data})=>{
-                console.log('dados da consulta:',data)
-                setlistaMensagem(data)
+              setlistaMensagem(data)
             })
+            att_msg((param_message) =>{
+                // handleNovaMensagem(param_message);
+                setlistaMensagem((valorAtualDaLista) => {
+                    return[
+                        param_message,
+                        ...valorAtualDaLista,
+                    ]
+                })
+            });
 
     },[])
+
+    // [
+        // param_message,
+        // ...listaMensagem,
+    // ]
 
 
     function handleNovaMensagem(novaMensagem) {
@@ -43,10 +67,10 @@ export default function ChatPage() {
                 mensagem
             ])
             .then((dado)=>{
-                setlistaMensagem([
-                    dado.data[0],
-                    ...listaMensagem,
-                ])
+                // setlistaMensagem([
+                    // dado.data[0],
+                    // ...listaMensagem,
+                // ])
             })
 
         setMesagem('')
@@ -124,6 +148,13 @@ export default function ChatPage() {
                                 backgroundColor: appConfig.theme.colors.neutrals[800],
                                 marginRight: '12px',
                                 color: appConfig.theme.colors.neutrals[200],
+                            }}
+                        />
+                        {/* CALL BACK */}
+                        <ButtonSendSticker 
+                            onStickerClick={(e) =>{
+                                console.log("[USANDO O COMPONENTE] Salva esse sticker no banco",e)
+                                handleNovaMensagem(':sticker:' + e)
                             }}
                         />
                     </Box>
@@ -208,7 +239,14 @@ function MessageList(props) {
                                 {(new Date().toLocaleDateString())}
                             </Text>
                         </Box>
-                        {mensagem.texto}
+                        {mensagem.texto.startsWith(':sticker:') // Condição Abaixo de IF ternário
+                            ?( //if true
+                                <Image src={mensagem.texto.replace(':sticker:','')}/> // tag imagem do skynexui/components
+                            )
+                            :( // else
+                                mensagem.texto
+                            )
+                        }
                     </Text>
                 )
             })}
