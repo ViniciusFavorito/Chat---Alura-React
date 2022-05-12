@@ -150,7 +150,6 @@ export default function ChatPage() {
                                 color: appConfig.theme.colors.neutrals[200],
                             }}
                         />
-                        {/* CALL BACK */}
                         <ButtonSendSticker 
                             onStickerClick={(e) =>{
                                 console.log("[USANDO O COMPONENTE] Salva esse sticker no banco",e)
@@ -188,7 +187,7 @@ function MessageList(props) {
         <Box
             tag="ul"
             styleSheet={{
-                overflow: 'scroll',
+                overflow: 'auto',
                 display: 'flex',
                 flexDirection: 'column-reverse',
                 flex: 1,

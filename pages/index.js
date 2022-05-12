@@ -22,31 +22,12 @@ function titulo(props) {
 }
 
 
-//Componente react
-
-// function homepage(){
-//JSX
-// return(
-// <div>
-{/* <GlobalStyle/>  */ }
-{/* <titulo tag="h2">Boas vindas de volta!</titulo>  */ }
-{/* <h2>Discord Alura Matrix</h2>  */ }
-{/*  */ }
-{/* </div> */ }
-// )
-// }
-// export default homepage
-
-
 export default function PaginaInicial() {
-   // const username = 'ViniciusFavorito';
     const [username,setUsername] = React.useState('');
     const roteamento_chat = useRouter();
 
-
     return (
         <>
-            
             <Box
                 styleSheet={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -70,7 +51,6 @@ export default function PaginaInicial() {
                         backgroundColor: appConfig.theme.colors.neutrals[700],
                     }}
                 >
-                    {/* Formul�rio */}
                     <Box
                         as="form"
                         onSubmit={function (e){
@@ -102,6 +82,7 @@ export default function PaginaInicial() {
                                     setUsername(valor)
                                 }
                             }
+                            placeholder="Digite seu nome no GitHub"
                             fullWidth
                             textFieldColors={{
                                 neutral: {
@@ -122,38 +103,16 @@ export default function PaginaInicial() {
                                 mainColorLight: appConfig.theme.colors.primary[400],
                                 mainColorStrong: appConfig.theme.colors.primary[600],
                             }}
+                            disabled={!username}
+                            styleSheet={{
+                                hover: {
+                                    backgroundColor: appConfig.theme.colors.neutrals[1000],
+                                }
+                            }}
                         />
                         
                     </Box>
-                    {/* Formul�rio padrão */}
 
-                    {/* <box
-                        as="form"
-                        onSubmit={function (e){
-                            e.preventDefault()
-                            roteamento_gr8.push('/gr8');
-                        }}
-                        styleSheet={{
-                            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                            width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
-                        }}
-                    >
-
-                    <Button
-                            type='submit'
-                            label='Entrar na aba GR8'
-                            fullWidth
-                            buttonColors={{
-                                contrastColor: appConfig.theme.colors.neutrals["000"],
-                                mainColor: appConfig.theme.colors.primary[500],
-                                mainColorLight: appConfig.theme.colors.primary[400],
-                                mainColorStrong: appConfig.theme.colors.primary[600],
-                            }}
-                        />
-                    </box> */}
-
-
-                    {/* Photo Area */}
                     <Box
                         styleSheet={{
                             display: 'flex',
@@ -188,7 +147,6 @@ export default function PaginaInicial() {
                             {username}
                         </Text>
                     </Box>
-                    {/* Photo Area */}
                 </Box>
             </Box>
         </>
